@@ -1,8 +1,8 @@
 apiVersion: v2
 name: puppetserver-helm-chart
 type: application
-version: 3.0.0
-appVersion: 6.9.2
+version: 3.1.0
+appVersion: 6.10.0
 description: Puppet automates the delivery and operation of software.
 keywords: ["puppet", "puppetserver", "automation", "iac", "infrastructure", "cm", "ci", "cd"]
 home: https://puppet.com/
@@ -12,11 +12,11 @@ sources:
 maintainers:
 - name: Xtigyro
   email: miroslav.hadzhiev@gmail.com
-- name: scottcressi
-  email: scottcressi@gmail.com
-- name: underscorgan
-  email: morgan@puppet.com
 - name: slconley
   email: slconley@gmail.com
+- name: underscorgan
+  email: morgan@puppet.com
+- name: scottcressi
+  email: scottcressi@gmail.com
 engine: gotpl
 kubeVersion: ">=1.10.0-0"

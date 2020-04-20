@@ -7,7 +7,7 @@
 puppetserver:
   name: puppetserver
   image: puppet/puppetserver
-  tag: 6.9.2
+  tag: 6.10.0
   pullPolicy: IfNotPresent
   ## Horizontal Scaling
   ## Optional deployment of multiple Puppet Server Compilers
@@ -107,27 +107,8 @@ puppetserver:
 r10k:
   name: r10k
   image: puppet/r10k
-  tag: 3.3.3
+  tag: 3.3.3   # 3.3.3 or higher required
   pullPolicy: IfNotPresent
-  ## Affinity for "r10k" pod assignment
-  ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  ## Note that the "puppetserver" and "r10k" components of the Puppet Server
-  ## use common storage. That common storage requirement might impose
-  ## certain pod assignment scenarios. It might be required the "puppetserver" and "r10k"
-  ## components to sit in the same K8s Node.
-  ## For that matter optional pod affinity is made available for the "r10k" pod if need be.
-  ## The exemplary configuration can be used without modification,
-  ## if "Values.puppetserver.name" is kept unchanged.
-  affinity: {}
-  #  podAffinity:
-  #    requiredDuringSchedulingIgnoredDuringExecution:
-  #    - labelSelector:
-  #        matchExpressions:
-  #        - key: component
-  #          operator: In
-  #          values:
-  #          - puppetserver
-  #      topologyKey: "kubernetes.io/hostname"
   code:
     resources: {}
     #  requests:
@@ -138,16 +119,12 @@ r10k:
     #    cpu: 500m
     cronJob:
       schedule: "*/15 * * * *"
-      concurrencyPolicy: Forbid
-      restartPolicy: Never
-      startingDeadlineSeconds: 500
-      activeDeadlineSeconds: 750
     ## Additional r10k code container arguments
     extraArgs: {}
     #  - --verbose=debug2   # error, warn, notice, info, debug, debug1, debug2
     #  - --trace
     #  - --color
-    ## Additional puppetserver code container environment variables
+    ## Additional r10k code container environment variables
     extraEnv: {}
     viaSsh:
       credentials:
@@ -172,11 +149,7 @@ r10k:
     #    cpu: 500m
     cronJob:
       schedule: "*/2 * * * *"
-      concurrencyPolicy: Forbid
-      restartPolicy: Never
-      startingDeadlineSeconds: 60
-      activeDeadlineSeconds: 90
-    ## Additional r10k hiera container arguments
+    ## Additional r10k hiera container environment variables
     extraArgs: {}
     #  - --verbose=debug2   # error, warn, notice, info, debug, debug1, debug2
     #  - --trace
@@ -293,20 +266,7 @@ hiera:
 ## Pod Configuration
 ##
 ## Node labels for pod assignment
-nodeSelector:
-  ## Common node labels for pod assignment
-  allPods: {}
-    # key: value
-    #
-  ## Node labels for pod assignment of "puppetserver" and "r10k" pods
-  ## Note that the "puppetserver" and "r10k" components of the Puppet Server
-  ## use common storage. That common storage requirement might impose
-  ## certain pod assignment scenarios. It might be required the "puppetserver" and "r10k"
-  ## components to sit in a common Cloud Provider's Availability Zone.
-  ## For that matter separate node labels are made available for those if need be.
-  commonStoragePods: {}
-    # failure-domain.beta.kubernetes.io/zone: eu-central-1a
-    # kubernetes.io/hostname: ip-10-0-6-168.eu-central-1.compute.internal
+nodeSelector: {}
 
 ## Affinity for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity

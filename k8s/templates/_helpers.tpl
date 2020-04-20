@@ -31,6 +31,20 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{/*
+Create the args array for "r10k_code_cronjob.sh"
+*/}}
+{{- define "r10k.code.args" -}}
+{{- join " " .Values.r10k.code.extraArgs }}
+{{- end -}}
+
+{{/*
+Create the args array for "r10k_hiera_cronjob.sh"
+*/}}
+{{- define "r10k.hiera.args" -}}
+{{- join " " .Values.r10k.hiera.extraArgs }}
+{{- end -}}
+
+{{/*
 Create unified labels for Puppetserver components
 */}}
 {{- define "puppetserver.common.matchLabels" -}}

@@ -17,7 +17,7 @@ data:
               echo "Still waiting..."
               sleep 5
             done
-        sleep 60
+        sleep 15
         echo "Puppet SSL certs have been generated. Continuing..."
     else
         echo "No other Puppetserver master is running. Continuing..."
